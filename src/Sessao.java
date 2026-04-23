@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Sessao {
+
     private int idSessao;
     public LocalDate data;
     public LocalTime horario;
@@ -18,6 +19,8 @@ public class Sessao {
         this.filme = filme;
         this.sala = sala;
     }
+
+    //GETTERS E SETTERS
 
     public int getIdSessao(){return idSessao;}
 
@@ -38,12 +41,13 @@ public class Sessao {
 
     @Override
     public String toString(){
-        return "Id Sessão: " + idSessao +
-                ", Filme: " + filme.getTitulo() +
-                ", Sala: " + sala.getNumeroSala() +
-                ", Data: " + data +
-                ", Horário: " + horario +
-                ", Idioma: " + idioma;
+        return  "\n----- SESSÃO -----" +
+                "\nId Sessão: " + idSessao +
+                "\nFilme: " + filme.getTitulo() +
+                "\nSala: " + sala.getNumeroSala() +
+                "\nData: " + data +
+                "\nHorário: " + horario +
+                "\nIdioma: " + idioma;
     }
 }
 

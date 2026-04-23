@@ -9,6 +9,8 @@ public class Pessoa {
         this.telefone = telefone;
     }
 
+    //GETTERS E SETTERS
+
     public String getNome(){ return nome; }
     public void setNome(String nome){this.nome = nome; }
 
@@ -17,4 +19,12 @@ public class Pessoa {
 
     public String getTelefone(){ return telefone; }
     public void setTelefone(String telefone){this.telefone = telefone; }
+
+    @Override
+    public String toString(){
+        return "\n----- CADASTRO DE PESSOA -----" +
+               "\nNome: " + nome +
+               "\nEmail: " + email +
+               "\nTelefone: " + telefone;
+    }
 }

@@ -82,13 +82,14 @@ public class Ingresso {
 
     @Override
     public String toString(){
-        return "Id: " + idIngresso +
-               ", Código= " + codigo +
-               ", Aquisição: " + dataCompra +
-               ", Valor do Ingresso: " + valorIngresso +
-               ", Status: " + status +
-               ", Cliente: " + cliente +
-               ", Sessão: " +sessao;
+        return "\n----- INGRESSO -----" +
+               "\nId: " + idIngresso +
+               "\nCódigo= " + codigo +
+               "\nAquisição: " + dataCompra +
+               "\nValor do Ingresso: " + valorIngresso +
+               "\nStatus: " + status +
+               "\nCliente: " + cliente +
+               "\nSessão: " +sessao;
 
     }
 
