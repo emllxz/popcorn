@@ -21,7 +21,8 @@ public class Filme {
         this.disponivel = disponivel;
     }
 
-    //Getters e Setters
+    //GETTERS E SETTERS
+
     public int getIdFilme(){return idFilme;
     }
 

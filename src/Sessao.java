@@ -39,8 +39,8 @@ public class Sessao {
     @Override
     public String toString(){
         return "Id Sessão: " + idSessao +
-                ", Filme: " + filme.titulo +
-                ", Sala: " + sala.numeroSala +
+                ", Filme: " + filme.getTitulo() +
+                ", Sala: " + sala.getNumeroSala() +
                 ", Data: " + data +
                 ", Horário: " + horario +
                 ", Idioma: " + idioma;
