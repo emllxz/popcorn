@@ -1,91 +1,193 @@
 import java.util.Scanner;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDate;
 
-public class Main {
-    public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+public class Main{
 
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        ArrayList<Filme> filmes = new ArrayList<>();
-        ArrayList<Sessao> sessoes = new ArrayList<>();
+    private static final Scanner sc = new Scanner(System.in);
+    private static final List<Filme> filmes = new ArrayList<>();
+    private static int contadorFilme = 1;
+    private static final List<Sala> salas = new ArrayList<>();
+    private static int contadorSala = 1;
 
-        System.out.println("\n-----Cadastro de Cliente -----\n");
-        System.out.println("Digite o nome: ");
-        String nome = sc.nextLine();
+    public static void main (String[] args){
+        boolean executando = true;
 
-        System.out.println("Digite o email: ");
-        String email = sc.nextLine();
+        while(executando) {
+            System.out.println("- - - - - - - - - - - - -");
+            System.out.println("   Sessão Cinema   ");
+            System.out.println("- - - - - - - - - - - - -");
+            System.out.println("1. Area de ADM");
+            System.out.println("2. Area de Cliente");
+            System.out.println("0. Sair");
+            System.out.println("Escolha uma opção: ");
 
-        System.out.println("Digite a senha: ");
-        String senha = sc.nextLine();
+            int opcao = parseInt(sc.nextLine());
 
-        System.out.println("Digite o telefone:");
-        String telefone = sc.nextLine();
+            switch (opcao) {
+                case 1:
+                    menuADM();
+                    break;
+                case 2:
+                    menuCliente();
+                    break;
+                case 0:
+                    executando = false;
+                    System.out.println("Encerrando o Sistema:");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
+    }
 
-        System.out.println("Digite a data de nascimento (yyyy-MM-dd):");
-        String dataTexto = sc.nextLine();
-        LocalDate dataNaciemento = LocalDate.parse(dataTexto);
+    public static void menuADM(){
+        boolean voltar = false;
 
-        Cliente cliente = new Cliente(
-                1,
-                nome,
-                email,
-                senha,
-                telefone,
-                dataNaciemento
-        );
+        while(!voltar){
+            System.out.println("- - - - - - - - - - - - -");
+            System.out.println("  Area do Administrador  ");
+            System.out.println("- - - - - - - - - - - - -");
+            System.out.println("1. Cadastrar filme");
+            System.out.println("2. Cadastrar sala");
+            System.out.println("3. Cadastrar sessão");
+            System.out.println("4. Listar filmes");
+            System.out.println("5. Listar salas");
+            System.out.println("6. Listar sessões");
+            System.out.println("0. Voltar");
+            System.out.println("Escolha uma opção: ");
 
-        clientes.add(cliente);
+            int opcao = Integer.parseInt(sc.nextLine());
 
-        System.out.println("\nClientes cadastrados:");
-        for (Cliente c : clientes) {
-            System.out.println(c);
+            switch(opcao){
+                case 1:
+                    cadastrarFilmes();
+                    break;
+                case 2:
+                    cadastrarSalas();
+                    break;
+                case 4:
+                    listarFilmes();
+                    break;
+                case 0:
+                    voltar = true;
+                    System.out.println("Menu inicial.:");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
+    }
+
+    public static void menuCliente() {
+
+        boolean voltar = false;
+
+        while (!voltar) {
+
+            System.out.println("- - - - - - - - - - - - -");
+            System.out.println("  Area do Administrador  ");
+            System.out.println("- - - - - - - - - - - - -");
+            System.out.println("1. Cadastrar usuário");
+            System.out.println("2. Fazer login");
+            System.out.println("3. Consultar sessões");
+            System.out.println("4. Comprar ingressos");
+            System.out.println("5. Cancelar ingressos");
+            System.out.println("0. Voltar");
+            System.out.println("Escolha uma opção: ");
+
+            int opcao = Integer.parseInt(sc.nextLine());
+
+            switch (opcao) {
+                case 0:
+                    voltar = true;
+                    break;
+            }
         }
 
-        System.out.println("\n========================");
+    }
+    //USUÁRIO ADMIN -- CADASTRO DE FILME
+    public static void cadastrarFilmes() {
+        System.out.println("\n- - - - - - - - - - - - -");
+        System.out.println("     CADASTRAR FILME      ");
+        System.out.println("- - - - - - - - - - - - -");
 
-        System.out.println("\n-----Cadastro de Filme -----\n");
-        System.out.println("Digite o título: ");
+        System.out.print("Título: ");
         String titulo = sc.nextLine();
 
-        System.out.println("Digite a descrição: ");
+        System.out.print("Descrição: ");
         String descricao = sc.nextLine();
 
-        System.out.println("Digite a duração: ");
+        System.out.print("Duração: ");
         String duracao = sc.nextLine();
 
-        System.out.println("Digite a Classificação Indicativa:");
-        int classificacaoIndicativa = sc.nextInt();
-        sc.nextLine();
+        System.out.print("Classificação Indicativa: ");
+        int classificacaoIndicativa = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Digite o gênero:");
-        String genero = sc.nextLine();
+        System.out.print("Gênero: ");
+        String genero = (sc.nextLine());
 
-        System.out.println("Digite a data de lançamento (yyyy-MM-dd):");
-        String dataTexto1 = sc.nextLine();
-        LocalDate dataLancamento = LocalDate.parse(dataTexto1);
+        System.out.print("Data de lançamento (AAAA-MM-DD): ");
+        LocalDate dataLancamento = LocalDate.parse(sc.nextLine());
 
         boolean disponivel = true;
 
         Filme filme = new Filme(
-                1,
+                contadorFilme++,
                 titulo,
                 descricao,
                 duracao,
                 classificacaoIndicativa,
                 genero,
                 dataLancamento,
-                disponivel);
+                disponivel
+        );
 
         filmes.add(filme);
 
-        System.out.println("\nFilmes cadastrados:");
-        for (Filme f : filmes) {
-            System.out.println(f);
-        }
+        System.out.println("\nFilme cadastrado com sucesso!");
+    }
 
-        sc.close();
+    //USUÁRIO ADMIN -- CADASTRO DE SALA
+    public static void cadastrarSalas() {
+        System.out.println("\n- - - - - - - - - - - - -");
+        System.out.println("     CADASTRAR SALA      ");
+        System.out.println("- - - - - - - - - - - - -");
+
+        System.out.print("Número da sala: ");
+        int numeroSala = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Capacidade: ");
+        int capacidade = Integer.parseInt(sc.nextLine());
+
+        boolean disponivel = true;
+
+        Sala sala = new Sala(
+                contadorSala++,
+                numeroSala,
+                capacidade
+        );
+
+        salas.add(sala);
+
+        System.out.println("\nSala cadastrado com sucesso!");
+    }
+
+    private static void listarFilmes() {
+        System.out.println("\n- - - - - - - - - - - - -");
+        System.out.println("     LISTA FILMES      ");
+        System.out.println("- - - - - - - - - - - - -");
+
+        if(filmes.isEmpty()) {
+            System.out.println("Nenhum filme cadastrado.");
+            return;
+        }
+        for (Filme filme : filmes) {
+            System.out.println(filme);
+            System.out.println();
+        }
     }
 }
