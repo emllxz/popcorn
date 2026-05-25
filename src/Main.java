@@ -72,12 +72,18 @@
                     case 2:
                         cadastrarSalas();
                         break;
+                    case 3:
+                        cadastrarSessoes();
+                        break;
                     case 4:
                         listarFilmes();
                         break;
+                    case 5:
+                        listarSalas();
+                        break;
                     case 0:
                         voltar = true;
-                        System.out.println("Menu inicial.:");
+                        System.out.println("Menu inicial: ");
                         break;
                     default:
                         System.out.println("Opção inválida!");
@@ -114,44 +120,57 @@
         }
         //USUÁRIO ADMIN -- CADASTRO DE FILME
         public static void cadastrarFilmes() {
-            System.out.println("\n- - - - - - - - - - - - -");
-            System.out.println("     CADASTRAR FILME      ");
-            System.out.println("- - - - - - - - - - - - -");
+            boolean continuar = true;
 
-            System.out.print("Título: ");
-            String titulo = sc.nextLine();
+            while (continuar) {
 
-            System.out.print("Descrição: ");
-            String descricao = sc.nextLine();
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("     CADASTRAR FILME      ");
+                System.out.println("- - - - - - - - - - - - -");
 
-            System.out.print("Duração: ");
-            String duracao = sc.nextLine();
+                System.out.print("Título: ");
+                String titulo = sc.nextLine();
 
-            System.out.print("Classificação Indicativa: ");
-            int classificacaoIndicativa = Integer.parseInt(sc.nextLine());
+                System.out.print("Descrição: ");
+                String descricao = sc.nextLine();
 
-            System.out.print("Gênero: ");
-            String genero = (sc.nextLine());
+                System.out.print("Duração: ");
+                String duracao = sc.nextLine();
 
-            System.out.print("Data de lançamento (AAAA-MM-DD): ");
-            LocalDate dataLancamento = LocalDate.parse(sc.nextLine());
+                System.out.print("Classificação Indicativa: ");
+                int classificacaoIndicativa = Integer.parseInt(sc.nextLine());
 
-            boolean disponivel = true;
+                System.out.print("Gênero: ");
+                String genero = (sc.nextLine());
 
-            Filme filme = new Filme(
-                    contadorFilme++,
-                    titulo,
-                    descricao,
-                    duracao,
-                    classificacaoIndicativa,
-                    genero,
-                    dataLancamento,
-                    disponivel
-            );
+                System.out.print("Data de lançamento (AAAA-MM-DD): ");
+                LocalDate dataLancamento = LocalDate.parse(sc.nextLine());
 
-            filmes.add(filme);
+                boolean disponivel = true;
 
-            System.out.println("\nFilme cadastrado com sucesso!");
+                Filme filme = new Filme(
+                        contadorFilme++,
+                        titulo,
+                        descricao,
+                        duracao,
+                        classificacaoIndicativa,
+                        genero,
+                        dataLancamento,
+                        disponivel
+                );
+
+                filmes.add(filme);
+
+                System.out.println("\nFilme cadastrado com sucesso!");
+
+                System.out.println("\nDeseja cadastrar um novo filme? Sim/Não: ");
+                String resposta = sc.nextLine();
+
+                if(resposta.equalsIgnoreCase("Não")) {
+                    continuar = false;
+                }
+            }
+            System.out.println("\nVoltando ao Menu...");
         }
 
         //USUÁRIO ADMIN -- CADASTRO DE SALA
@@ -178,7 +197,7 @@
         }
 
         //USUÁRIO ADMIN -- CADASTRAR SESSAO
-        private static void cadastrarSessao(){
+        private static void cadastrarSessoes(){
             System.out.println("\n- - - - - - - - - - - - -");
             System.out.println("     CADASTRAR SESSÃO      ");
             System.out.println("- - - - - - - - - - - - - ");
@@ -192,17 +211,41 @@
             System.out.println("Idiomas disponíveis: ");
             String idioma = sc.nextLine();
 
-            System.out.println("Selecione a ID do filme: ");
+            System.out.println("Segue lista de filmes disponíveis: ");
             listarFilmes();
-            int opcao = Integer.parseInt(sc.nextLine());
-            Filme filmeSelecionado = filmes.get(opcao);
+            System.out.println("Digite a ID do Filme desejado: ");
+            int idFilme = Integer.parseInt(sc.nextLine());
 
-            System.out.println("Selecione a ID da Sala: ");
+            Filme filmeSelecionado = null;
+
+            for (Filme filme : filmes) {
+                if (filme.getIdFilme() == idFilme) {
+                    filmeSelecionado = filme;
+                    break;
+                }
+            }
+            if (filmeSelecionado == null) {
+                System.out.println("Filme não encontrado!");
+                return;
+            }
+
+            System.out.println("Segue lista de salas disponíveis: ");
             listarSalas();
-            int opcao1 = Integer.parseInt(sc.nextLine());
-            Sala salaSelecionada = salas.get(opcao1);
+            System.out.println("Digite a ID da Sala desejada: ");
+            int idSala = Integer.parseInt(sc.nextLine());
 
+            Sala salaSelecionada = null;
 
+            for (Sala sala : salas) {
+                if (sala.getIdSala() == idSala) {
+                    salaSelecionada = sala;
+                    break;
+                }
+            }
+            if (salaSelecionada == null) {
+                System.out.println("Sala não encontrada!");
+                return;
+            }
 
             Sessao sessao = new Sessao(
                     contadorSessao++,
@@ -214,6 +257,7 @@
             );
 
             sessoes.add(sessao);
+
         }
 
         //USUÁRIO ADMIN -- LISTA DE FILME
