@@ -1,3 +1,4 @@
+    import java.awt.*;
     import java.util.Scanner;
     import static java.lang.Integer.parseInt;
     import java.util.ArrayList;
@@ -39,7 +40,7 @@
                         break;
                     case 0:
                         executando = false;
-                        System.out.println("Encerrando o Sistema:");
+                        System.out.println("Encerrando o Sistema...");
                         break;
                     default:
                         System.out.println("Opção inválida!");
@@ -80,6 +81,9 @@
                         break;
                     case 5:
                         listarSalas();
+                        break;
+                    case 6:
+                        listarSessao();
                         break;
                     case 0:
                         voltar = true;
@@ -175,95 +179,120 @@
 
         //USUÁRIO ADMIN -- CADASTRO DE SALA
         public static void cadastrarSalas() {
-            System.out.println("\n- - - - - - - - - - - - -");
-            System.out.println("     CADASTRAR SALA      ");
-            System.out.println("- - - - - - - - - - - - -");
+            boolean continuar = true;
 
-            System.out.print("Número da sala: ");
-            int numeroSala = Integer.parseInt(sc.nextLine());
+            while (continuar){
 
-            System.out.print("Capacidade: ");
-            int capacidade = Integer.parseInt(sc.nextLine());
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("     CADASTRAR SALA      ");
+                System.out.println("- - - - - - - - - - - - -");
 
-            Sala sala = new Sala(
-                    contadorSala++,
-                    numeroSala,
-                    capacidade
-            );
+                System.out.print("Número da sala: ");
+                int numeroSala = Integer.parseInt(sc.nextLine());
 
-            salas.add(sala);
+                System.out.print("Capacidade: ");
+                int capacidade = Integer.parseInt(sc.nextLine());
 
-            System.out.println("\nSala cadastrado com sucesso!");
+                Sala sala = new Sala(
+                        contadorSala++,
+                        numeroSala,
+                        capacidade
+                );
+
+                salas.add(sala);
+
+                System.out.println("\nSala cadastrado com sucesso!");
+
+                System.out.println("\nDeseja cadastrar uma nova sala? Sim/Não: ");
+                String resposta = sc.nextLine();
+
+                if(resposta.equalsIgnoreCase("Não")) {
+                    continuar = false;
+                }
+            }
+            System.out.println("\nVoltando ao Menu...");
         }
 
         //USUÁRIO ADMIN -- CADASTRAR SESSAO
         private static void cadastrarSessoes(){
-            System.out.println("\n- - - - - - - - - - - - -");
-            System.out.println("     CADASTRAR SESSÃO      ");
-            System.out.println("- - - - - - - - - - - - - ");
+            boolean continuar = true;
 
-            System.out.print("Data de Exibição (AAAA-MM-DD): ");
-            LocalDate data = LocalDate.parse(sc.nextLine());
+            while (continuar) {
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("     CADASTRAR SESSÃO      ");
+                System.out.println("- - - - - - - - - - - - - ");
 
-            System.out.print("Horário de Exibição (HH:MM): ");
-            LocalTime horario = LocalTime.parse(sc.nextLine());
+                System.out.print("Data de Exibição (AAAA-MM-DD): ");
+                LocalDate data = LocalDate.parse(sc.nextLine());
 
-            System.out.println("Idiomas disponíveis: ");
-            String idioma = sc.nextLine();
+                System.out.print("Horário de Exibição (HH:MM): ");
+                LocalTime horario = LocalTime.parse(sc.nextLine());
 
-            System.out.println("Segue lista de filmes disponíveis: ");
-            listarFilmes();
-            System.out.println("Digite a ID do Filme desejado: ");
-            int idFilme = Integer.parseInt(sc.nextLine());
+                System.out.println("Idiomas disponíveis: ");
+                String idioma = sc.nextLine();
 
-            Filme filmeSelecionado = null;
+                System.out.println("Segue lista de filmes disponíveis: ");
+                listarFilmes();
+                System.out.println("Digite a ID do Filme desejado: ");
+                int idFilme = Integer.parseInt(sc.nextLine());
 
-            for (Filme filme : filmes) {
-                if (filme.getIdFilme() == idFilme) {
-                    filmeSelecionado = filme;
-                    break;
+                Filme filmeSelecionado = null;
+
+                for (Filme filme : filmes) {
+                    if (filme.getIdFilme() == idFilme) {
+                        filmeSelecionado = filme;
+                        break;
+                    }
+                }
+                if (filmeSelecionado == null) {
+                    System.out.println("Filme não encontrado!");
+                    return;
+                }
+
+
+                System.out.println("Segue lista de salas disponíveis: ");
+                listarSalas();
+                System.out.println("Digite a ID da Sala desejada: ");
+                int idSala = Integer.parseInt(sc.nextLine());
+
+                Sala salaSelecionada = null;
+
+                for (Sala sala : salas) {
+                    if (sala.getIdSala() == idSala) {
+                        salaSelecionada = sala;
+                        break;
+                    }
+                }
+                if (salaSelecionada == null) {
+                    System.out.println("Sala não encontrada!");
+                    return;
+                }
+
+                Sessao sessao = new Sessao(
+                        contadorSessao++,
+                        data,
+                        horario,
+                        idioma,
+                        filmeSelecionado,
+                        salaSelecionada
+                );
+
+                sessoes.add(sessao);
+
+                System.out.println("\nSessão cadastrada com sucesso!");
+                System.out.println("\nDeseja cadastrar uma nova Sessão? Sim/Não");
+                String resposta = sc.nextLine();
+
+                if (resposta.equalsIgnoreCase("Não")){
+                    continuar = false;
                 }
             }
-            if (filmeSelecionado == null) {
-                System.out.println("Filme não encontrado!");
-                return;
-            }
-
-            System.out.println("Segue lista de salas disponíveis: ");
-            listarSalas();
-            System.out.println("Digite a ID da Sala desejada: ");
-            int idSala = Integer.parseInt(sc.nextLine());
-
-            Sala salaSelecionada = null;
-
-            for (Sala sala : salas) {
-                if (sala.getIdSala() == idSala) {
-                    salaSelecionada = sala;
-                    break;
-                }
-            }
-            if (salaSelecionada == null) {
-                System.out.println("Sala não encontrada!");
-                return;
-            }
-
-            Sessao sessao = new Sessao(
-                    contadorSessao++,
-                    data,
-                    horario,
-                    idioma,
-                    filmeSelecionado,
-                    salaSelecionada
-            );
-
-            sessoes.add(sessao);
-
         }
 
         //USUÁRIO ADMIN -- LISTA DE FILME
         private static void listarFilmes() {
             System.out.println("\n- - - - - - - - - - - - -");
-            System.out.println("     LISTA FILMES      ");
+            System.out.println("     LISTA DE FILMES      ");
             System.out.println("- - - - - - - - - - - - -");
 
             if(filmes.isEmpty()) {
@@ -279,7 +308,7 @@
         //USUÁRIO ADMIN -- LISTA DE SALA
         private static void listarSalas() {
             System.out.println("\n- - - - - - - - - - - - -");
-            System.out.println("     LISTA SALAS      ");
+            System.out.println("     LISTA DE SALAS      ");
             System.out.println("- - - - - - - - - - - - -");
 
             if(salas.isEmpty()) {
@@ -292,4 +321,18 @@
             }
         }
         //USUÁRIO ADMIN -- LISTA DA SESSÃO
+        private static void listarSessao() {
+            System.out.println("\n- - - - - - - - - - - - -");
+            System.out.println("     LISTA DE SESSÕES      ");
+            System.out.println("- - - - - - - - - - - - -");
+
+            if(sessoes.isEmpty()) {
+                System.out.println("Nenhuma sessão cadastrada.");
+                return;
+            }
+            for(Sessao sessao : sessoes){
+                System.out.println(sessoes);
+                System.out.println();
+            }
+        }
     }
