@@ -9,9 +9,9 @@ public class Ingresso {
     }
 
     private int idIngresso;
-    protected String codigo;
-    public LocalDate dataCompra;
-    public double valorIngresso;
+    private String codigo;
+    private LocalDate dataCompra;
+    private double valorIngresso;
 
     private Status status;
 
@@ -88,8 +88,8 @@ public class Ingresso {
                "\nAquisição: " + dataCompra +
                "\nValor do Ingresso: " + valorIngresso +
                "\nStatus: " + status +
-               "\nCliente: " + cliente +
-               "\nSessão: " +sessao;
+               "\nCliente: " + cliente.getNome() +
+               "\nFilme: " +sessao.getFilme().getTitulo();
 
     }
 
