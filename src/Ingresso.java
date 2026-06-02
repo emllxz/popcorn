@@ -10,7 +10,7 @@ public class Ingresso {
 
     private int idIngresso;
     private String codigo;
-    private LocalDate dataCompra;
+    private LocalDate dataVencimentoIngresso;
     private double valorIngresso;
 
     private Status status;
@@ -23,7 +23,7 @@ public class Ingresso {
     public Ingresso(int idIngresso, String codigo, LocalDate dataCompra, double valorIngresso, Status status, Cliente cliente, Sessao sessao){
         this.idIngresso = idIngresso;
         this.codigo = codigo;
-        this.dataCompra = dataCompra;
+        this.dataVencimentoIngresso = dataVencimentoIngresso;
         this.valorIngresso = valorIngresso;
 
         this.status = status;
@@ -45,11 +45,9 @@ public class Ingresso {
         this.codigo = codigo;
     }
 
-    public LocalDate getDataCompra(){
-        return dataCompra;
-    }
+    public LocalDate getDataCompra(){return dataVencimentoIngresso;}
     public void setDataCompra(LocalDate dataCompra){
-        this.dataCompra = dataCompra;
+        this.dataVencimentoIngresso = dataCompra;
     }
 
     public double getValorIngresso(){
@@ -85,7 +83,7 @@ public class Ingresso {
         return "\n----- INGRESSO -----" +
                "\nId: " + idIngresso +
                "\nCódigo= " + codigo +
-               "\nAquisição: " + dataCompra +
+               "\nVencimento: " + sessao.getData() +
                "\nValor do Ingresso: " + valorIngresso +
                "\nStatus: " + status +
                "\nCliente: " + cliente.getNome() +
