@@ -20,6 +20,37 @@ import java.time.LocalTime;
         private static Cliente clienteLogado;
         private static String senhaAdmin = ("Admin@!2026");
 
+        public static int lerInput(){
+            while (true) {
+                try {
+                    return Integer.parseInt(sc.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("\nDigite apenas números:");
+                }
+            }
+        }
+
+        public static LocalDate lerData() {
+            while (true) {
+                try {
+                    return LocalDate.parse(sc.nextLine());
+                } catch (Exception e) {
+                    System.out.println("Data inválida! Use AAAA-MM-DD");
+                }
+            }
+        }
+
+        public static LocalTime lerHora() {
+            while (true) {
+                try {
+                    return LocalTime.parse(sc.nextLine());
+                } catch (Exception e) {
+                    System.out.println("Hora inválida! Use HH:MM");
+                }
+            }
+
+        }
+
         public static void main(String[] args) {
             boolean executando = true;
 
@@ -34,7 +65,7 @@ import java.time.LocalTime;
 
                 System.out.println("\nEscolha uma opção: ");
 
-                int opcao = parseInt(sc.nextLine());
+                int opcao = lerInput();
 
                 boolean voltar = false;
 
@@ -55,7 +86,7 @@ import java.time.LocalTime;
 
                                 System.out.println("\nEscolha uma opção: ");
 
-                                int opcaoErro = parseInt(sc.nextLine());
+                                int opcaoErro = lerInput();
 
                                 switch (opcaoErro) {
                                     case 1:
@@ -92,61 +123,187 @@ import java.time.LocalTime;
                 System.out.println("  Area do Administrador  ");
                 System.out.println("- - - - - - - - - - - - -");
 
-                System.out.println("1. Cadastrar filme");
-                System.out.println("2. Cadastrar sala");
-                System.out.println("3. Cadastrar sessão");
-                System.out.println("4. Listar filmes");
-                System.out.println("5. Listar salas");
-                System.out.println("6. Listar sessões");
-                System.out.println("7. Listar usuários");
-                System.out.println("8. Remover sessão");
-                System.out.println("9. Remover sala");
-                System.out.println("10. Inativar filme");
-                System.out.println("11. Relatórios");
+                System.out.println("1. Filmes");
+                System.out.println("2. Salas");
+                System.out.println("3. Sessões");
+                System.out.println("4. Usuários");
+                System.out.println("5. Relatórios");
                 System.out.println("0. Voltar");
 
                 System.out.println("\nEscolha uma opção: ");
 
-                int opcao = Integer.parseInt(sc.nextLine());
+                int opcao = lerInput();
 
                 switch (opcao) {
                     case 1:
-                        cadastrarFilmes();
+                        menuFilmes();
                         break;
                     case 2:
-                        cadastrarSalas();
+                        menuSalas();
                         break;
                     case 3:
-                        cadastrarSessoes();
+                        menuSessoes();
                         break;
                     case 4:
-                        listarFilmes();
+                        menuUsuarios();
                         break;
                     case 5:
-                        listarSalas();
-                        break;
-                    case 6:
-                        listarSessoes();
-                        break;
-                    case 7:
-                        listarUsuarios();
-                        break;
-                    case 8:
-                        removerSessao();
-                        break;
-                    case 9:
-                        removerSala();
-                        break;
-                    case 10:
-                        inativarFilme();
-                        break;
-                    case 11:
-                        mostrarRelatorios();
+                        menuRelatorios();
                         break;
                     case 0:
                         voltar = true;
                         System.out.println("\nRetornando ao Menu inicial... ");
                         break;
+                    default:
+                        System.out.println("\nOpção inválida!");
+                        break;
+                }
+            }
+        }
+
+        public static void menuFilmes() {
+
+            boolean continuar = true;
+
+            while (continuar) {
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("       Menu Filmes       ");
+                System.out.println("- - - - - - - - - - - - -");
+
+                System.out.println("1. Cadastrar filme");
+                System.out.println("2. Listar filmes");
+                System.out.println("3. Inativar filme");
+                System.out.println("0. Voltar");
+
+                System.out.println("\nEscolha uma opção: ");
+
+                int opcaoMenuFilme = lerInput();
+
+                switch (opcaoMenuFilme) {
+                    case 1:
+                        cadastrarFilmes();
+                        break;
+                    case 2:
+                        listarFilmes();
+                        break;
+                    case 3:
+                        inativarFilme();
+                        break;
+                    case 0:
+                        continuar = false;
+                        System.out.println("\nRetornando ao Menu inicial... ");
+                        break;
+                    default:
+                        System.out.println("\nOpção inválida!");
+                        break;
+
+                }
+            }
+        }
+
+        public static void menuSalas(){
+
+            boolean continuar = true;
+
+            while (continuar) {
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("        Menu Salas       ");
+                System.out.println("- - - - - - - - - - - - -");
+
+                System.out.println("1. Cadastrar salas");
+                System.out.println("2. Listar salas");
+                System.out.println("3. Remover sala");
+                System.out.println("0. Voltar");
+
+                System.out.println("\nEscolha uma opção: ");
+
+                int opcaoMenuSalas = lerInput();
+
+                switch (opcaoMenuSalas) {
+                    case 1:
+                        cadastrarSalas();
+                        break;
+                    case 2:
+                        listarSalas();
+                        break;
+                    case 3:
+                        removerSala();
+                        break;
+                    case 0:
+                        continuar = false;
+                        System.out.println("\nRetornando ao Menu inicial... ");
+                        break;
+                    default:
+                        System.out.println("\nOpção inválida!");
+                        break;
+                }
+            }
+        }
+
+        public static void menuSessoes() {
+            boolean continuar = true;
+
+            while (continuar) {
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("       Menu Sessões       ");
+                System.out.println("- - - - - - - - - - - - -");
+
+                System.out.println("1. Cadastrar sessão");
+                System.out.println("2. Listar sessões");
+                System.out.println("3. Remover sessões");
+                System.out.println("0. Voltar");
+
+                System.out.println("\nEscolha uma opção: ");
+
+                int opcaoMenuSessoes = lerInput();
+
+                switch (opcaoMenuSessoes) {
+                    case 1:
+                        cadastrarSessoes();
+                        break;
+                    case 2:
+                        listarSessoes();
+                        break;
+                    case 3:
+                        removerSessao();
+                        break;
+                    case 0:
+                        continuar = false;
+                        System.out.println("\n Retornando ao Menu Inicial...");
+                    default:
+                        System.out.println("\nOpção inválida!");
+                        break;
+                }
+            }
+        }
+
+        public static void menuUsuarios() {
+
+            boolean continuar = true;
+
+            while (continuar) {
+                System.out.println("\n- - - - - - - - - - - - -");
+                System.out.println("       Menu Usuários       ");
+                System.out.println("- - - - - - - - - - - - -");
+
+                System.out.println("1. Cadastrar usuários");
+                System.out.println("2. Listar usuários");
+                System.out.println("0. Voltar");
+
+                System.out.println("\nEscolha uma opção: ");
+
+                int opcaoMenuUsuarios = lerInput();
+
+                switch (opcaoMenuUsuarios) {
+                    case 1:
+                        cadastrarCliente();
+                        break;
+                    case 2:
+                        listarUsuarios();
+                        break;
+                    case 0:
+                        continuar = false;
+                        System.out.println("\n Retornando ao Menu Inicial...");
                     default:
                         System.out.println("\nOpção inválida!");
                         break;
@@ -168,7 +325,7 @@ import java.time.LocalTime;
                 System.out.println("0. Voltar");
                 System.out.println("\nEscolha uma opção: ");
 
-                int opcaoPrincipal = Integer.parseInt(sc.nextLine());
+                int opcaoPrincipal = lerInput();
 
                 switch (opcaoPrincipal) {
                     case 1:
@@ -210,13 +367,13 @@ import java.time.LocalTime;
                 String duracao = sc.nextLine();
 
                 System.out.print("Classificação Indicativa: ");
-                int classificacaoIndicativa = Integer.parseInt(sc.nextLine());
+                int classificacaoIndicativa = lerInput();
 
                 System.out.print("Gênero: ");
                 String genero = (sc.nextLine());
 
                 System.out.print("Data de lançamento (AAAA-MM-DD): ");
-                LocalDate dataLancamento = LocalDate.parse(sc.nextLine());
+                LocalDate dataLancamento = lerData();
 
                 boolean disponivel = true;
 
@@ -239,7 +396,7 @@ import java.time.LocalTime;
                 System.out.println("1. Sim");
                 System.out.println("2. Não");
 
-                int opcaoCadastrarNovoFilme = parseInt(sc.nextLine());
+                int opcaoCadastrarNovoFilme = lerInput();
 
                 switch (opcaoCadastrarNovoFilme) {
                     case 1:
@@ -267,10 +424,10 @@ import java.time.LocalTime;
                 System.out.println("- - - - - - - - - - - - -");
 
                 System.out.print("Número da sala: ");
-                int numeroSala = Integer.parseInt(sc.nextLine());
+                int numeroSala = lerInput();
 
                 System.out.print("Capacidade: ");
-                int capacidade = Integer.parseInt(sc.nextLine());
+                int capacidade = lerInput();
 
                 Sala sala = new Sala(
                         contadorSala++,
@@ -286,7 +443,7 @@ import java.time.LocalTime;
                 System.out.println("1. Sim");
                 System.out.println("2. Não");
 
-                int opcaoCadastrarNovaSala = parseInt(sc.nextLine());
+                int opcaoCadastrarNovaSala = lerInput();
 
                 switch (opcaoCadastrarNovaSala){
                     case 1:
@@ -313,10 +470,10 @@ import java.time.LocalTime;
                 System.out.println("- - - - - - - - - - - - - ");
 
                 System.out.print("Data de Exibição (AAAA-MM-DD): ");
-                LocalDate data = LocalDate.parse(sc.nextLine());
+                LocalDate data = lerData();
 
                 System.out.print("Horário de Exibição (HH:MM): ");
-                LocalTime horario = LocalTime.parse(sc.nextLine());
+                LocalTime horario = lerHora();
 
                 System.out.println("Idiomas disponíveis: ");
                 String idioma = sc.nextLine();
@@ -346,7 +503,7 @@ import java.time.LocalTime;
                     }
                 }
                 System.out.println("\nDigite a ID do Filme desejado: ");
-                int idFilme = Integer.parseInt(sc.nextLine());
+                int idFilme = lerInput();
 
                 Filme filmeSelecionado = null;
 
@@ -371,7 +528,7 @@ import java.time.LocalTime;
                 System.out.println("Segue lista de salas disponíveis: ");
                 listarSalas();
                 System.out.println("\nDigite a ID da Sala desejada: ");
-                int idSala = Integer.parseInt(sc.nextLine());
+                int idSala = lerInput();
 
                 Sala salaSelecionada = null;
 
@@ -402,7 +559,7 @@ import java.time.LocalTime;
                 System.out.println("\n1. Sim");
                 System.out.println("2. Não");
 
-                 int opcaoCadastrarNovaSessao = parseInt(sc.nextLine());
+                 int opcaoCadastrarNovaSessao = lerInput();
 
                  switch (opcaoCadastrarNovaSessao) {
                      case 1:
@@ -493,7 +650,7 @@ import java.time.LocalTime;
             listarSessoes();
 
             System.out.println("Digite o ID da sessão: ");
-            int id = parseInt(sc.nextLine());
+            int id = lerInput();
 
             for (int i = 0; i < sessoes.size(); i++) {
 
@@ -518,7 +675,7 @@ import java.time.LocalTime;
             listarSalas();
 
             System.out.println("\nDigite o ID da sala: ");
-            int id = parseInt(sc.nextLine());
+            int id = lerInput();
 
             for (Sessao sessao : sessoes) {
                 if (sessao.getSala().getIdSala() == id) {
@@ -553,7 +710,7 @@ import java.time.LocalTime;
             listarFilmes();
 
             System.out.println("Digite o ID do filme: ");
-            int id = parseInt(sc.nextLine());
+            int id = lerInput();
 
             for (Filme filme : filmes) {
                 if (filme.getIdFilme() == id) {
@@ -583,7 +740,7 @@ import java.time.LocalTime;
         }
 
         //USUÁRIO ADMIN -- 11 MOSTRAR RELATÓRIOS
-        private static void mostrarRelatorios() {
+        private static void menuRelatorios() {
             boolean voltar = true;
 
             while (voltar) {
@@ -598,7 +755,7 @@ import java.time.LocalTime;
                 System.out.println("\n- - - - - - - - - - - - -");
                 System.out.println("\nEscolha uma opção: ");
 
-                int opcaoRelatorio = parseInt(sc.nextLine());
+                int opcaoRelatorio = lerInput();
 
                 switch (opcaoRelatorio) {
                     case 1:
@@ -766,7 +923,7 @@ import java.time.LocalTime;
                 String nome = sc.nextLine();
 
                 System.out.println("Digite a data de nascimento (AAAA-MM-DD: ");
-                LocalDate dataNascimento = LocalDate.parse(sc.nextLine());
+                LocalDate dataNascimento = lerData();
 
                 System.out.println("Digite o email: ");
                 String email = sc.nextLine();
@@ -794,7 +951,7 @@ import java.time.LocalTime;
                 System.out.println("1. Sim");
                 System.out.println("2. Não");
 
-                int opcaoCadastrarNovoUsuario = parseInt(sc.nextLine());
+                int opcaoCadastrarNovoUsuario = lerInput();
 
                 switch (opcaoCadastrarNovoUsuario) {
                     case 1:
@@ -855,7 +1012,7 @@ import java.time.LocalTime;
                 System.out.println("0. Logout");
                 System.out.println("\nEscolha uma opção: ");
 
-                int opcao = Integer.parseInt(sc.nextLine());
+                int opcao = lerInput();
 
                 switch (opcao) {
                     case 1:
