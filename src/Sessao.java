@@ -3,6 +3,8 @@ import java.time.LocalTime;
 
 public class Sessao {
 
+    private List<Assentos> assentos;
+
     private int idSessao;
     public LocalDate data;
     public LocalTime horario;
@@ -39,6 +41,26 @@ public class Sessao {
     public Sala getSala(){return sala;}
     public void setSala(Sala sala){this.sala = sala;}
 
+    private void gerarAssentos(){
+
+        int filas = sala.getTipoSala().getFilas();
+        int coluna = sala.getTipoSala().getColunas();
+
+        for (int linha = 0; linha <filas; linha++){
+
+            char letra = (char) ('A' + linha);
+
+            for (int colunas = 1; coluna <= colunas; coluna++){
+
+                assentos.add(
+                        new Assento(letra + String.valueOf(coluna))
+                );
+            }
+
+        }
+
+
+    }
     @Override
     public String toString(){
         return  "\n----- SESSÃO -----" +

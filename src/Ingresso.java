@@ -8,6 +8,12 @@ public class Ingresso {
         CANCELADO
     }
 
+    private enum tipoIngresso {
+        IDOSO,
+        CRIANCA,
+        UNIVERSITARIO
+    }
+
     private int idIngresso;
     private String codigo;
     private LocalDate dataVencimentoIngresso;
