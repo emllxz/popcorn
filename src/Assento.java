@@ -1,4 +1,5 @@
 public class Assento {
+
     private String codigoAssento;
     private boolean ocupado;
 
@@ -19,7 +20,5 @@ public class Assento {
         ocupado = true;
     }
 
-    public void liberar(){
-        ocupado = false;
-    }
+    public void liberar() {ocupado = false; }
 }

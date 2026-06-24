@@ -47,7 +47,8 @@ public class Sala {
     public String toString(){
         return "\n----- SALA -----" +
                "\nId: " + idSala +
-               "\nNúmero da Sala: " + numeroSala;
+               "\nNúmero da Sala: " + numeroSala +
+               "\nTipo: " + tipoSala;
     }
 }
 

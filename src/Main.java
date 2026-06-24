@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-
 public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
@@ -273,6 +272,7 @@ public class Main {
                 case 0:
                     continuar = false;
                     System.out.println("\n Retornando ao Menu Inicial...");
+                    break;
                 default:
                     System.out.println("\nOpção inválida!");
                     break;
@@ -307,6 +307,7 @@ public class Main {
                 case 0:
                     continuar = false;
                     System.out.println("\n Retornando ao Menu Inicial...");
+                    break;
                 default:
                     System.out.println("\nOpção inválida!");
                     break;
@@ -432,13 +433,34 @@ public class Main {
             System.out.print("Número da sala: ");
             int numeroSala = lerInput();
 
-            System.out.print("Capacidade: ");
-            int capacidade = lerInput();
+            System.out.print("Tipo de Sala: ");
+            System.out.println("1 - Pequena");
+            System.out.println("2 - Média");
+            System.out.println("3 - Grande");
+
+            int opcaoTipoSala = lerInput();
+
+            Sala.TipoSala tipoSala = null;
+
+            switch (opcaoTipoSala) {
+                case 1:
+                    tipoSala = Sala.TipoSala.PEQUENA;
+                    break;
+                case 2:
+                    tipoSala = Sala.TipoSala.MEDIA;
+                    break;
+                case 3:
+                    tipoSala = Sala.TipoSala.GRANDE;
+                    break;
+                default:
+                System.out.println("Tipo inválido!");
+                continue;
+            }
 
             Sala sala = new Sala(
                     contadorSala++,
                     numeroSala,
-                    capacidade
+                    tipoSala
             );
 
             salas.add(sala);
@@ -933,11 +955,24 @@ public class Main {
             System.out.println("Digite o nome completo: ");
             String nome = sc.nextLine();
 
-            System.out.println("Digite a data de nascimento (AAAA-MM-DD: ");
+            System.out.println("Digite a data de nascimento (AAAA-MM-DD): ");
             LocalDate dataNascimento = lerData();
 
             System.out.println("Digite o email: ");
             String email = sc.nextLine();
+
+            boolean emailExiste = false;
+
+            for (Cliente cliente : clientes) {
+                if (cliente.getEmail().equalsIgnoreCase(email)) {
+                    emailExiste = true;
+                    break;
+                }
+            }
+            if(emailExiste) {
+                    System.out.println("E-mail já cadastrado!");
+                    continue;
+            }
 
             System.out.println("Digite o telefone: ");
             String telefone = sc.nextLine();
@@ -977,7 +1012,7 @@ public class Main {
                     continuar = false;
                     break;
             }
-            System.out.println("\nPara acessar sua conta, selecione a opção 'Fazer login' e informe seu dados.");
+            System.out.println("\nPara acessar sua conta, selecione a opção 'Fazer login' e informe seus dados.");
             System.out.println("\nVoltando ao Menu...");
         }
     }
@@ -993,6 +1028,7 @@ public class Main {
 
         System.out.print("Digite a senha: ");
         String senha = sc.nextLine();
+
 
         for (Cliente cliente : clientes) {
             if (cliente.getEmail().equalsIgnoreCase(email)
@@ -1058,7 +1094,7 @@ public class Main {
 
     private static void verSessoes() {
         System.out.println("Segue lista de sessões: ");
-        listarSalas();
+        listarSessoes();
     }
 
     private static void comprarIngresso() {

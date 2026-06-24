@@ -9,6 +9,7 @@ public class Ingresso {
     }
 
     private enum tipoIngresso {
+        INTEIRA,
         IDOSO,
         CRIANCA,
         UNIVERSITARIO
@@ -16,26 +17,30 @@ public class Ingresso {
 
     private int idIngresso;
     private String codigo;
-    private LocalDate dataVencimentoIngresso;
     private double valorIngresso;
 
     private Status status;
 
     private Cliente cliente;
     private Sessao sessao;
+    private Assento assento;
 
 
 
-    public Ingresso(int idIngresso, String codigo, LocalDate dataCompra, double valorIngresso, Status status, Cliente cliente, Sessao sessao){
+
+    public Ingresso(int idIngresso, String codigo,
+                    double valorIngresso, Status status, Cliente cliente,
+                    Sessao sessao, Assento assento){
+
         this.idIngresso = idIngresso;
         this.codigo = codigo;
-        this.dataVencimentoIngresso = dataVencimentoIngresso;
         this.valorIngresso = valorIngresso;
 
         this.status = status;
 
         this.cliente = cliente;
         this.sessao = sessao;
+        this.assento = assento;
     }
 
     //GETTERS E SETTERS
@@ -44,16 +49,8 @@ public class Ingresso {
         return idIngresso;
     }
 
-    protected String getCodigo(){
+    public String getCodigo(){
         return codigo;
-    }
-    protected void setCodigo(String codigo){
-        this.codigo = codigo;
-    }
-
-    public LocalDate getDataCompra(){return dataVencimentoIngresso;}
-    public void setDataCompra(LocalDate dataCompra){
-        this.dataVencimentoIngresso = dataCompra;
     }
 
     public double getValorIngresso(){
@@ -63,19 +60,9 @@ public class Ingresso {
         this.valorIngresso = valorIngresso;
     }
 
-    public Cliente getCliente(){
-        return cliente;
-    }
-    public void setCliente(Cliente cliente){
-        this.cliente = cliente;
-    }
-
-    public Sessao getSessao(){
-        return sessao;
-    }
-    public void setSessao(Sessao sessao){
-        this.sessao = sessao;
-    }
+    public Cliente getCliente(){ return cliente; }
+    public Sessao getSessao(){ return sessao; }
+    public Assento getAssento() { return assento; }
 
     public Status getStatus (){
         return status;
@@ -89,11 +76,14 @@ public class Ingresso {
         return "\n----- INGRESSO -----" +
                "\nId: " + idIngresso +
                "\nCódigo= " + codigo +
-               "\nVencimento: " + sessao.getData() +
                "\nValor do Ingresso: " + valorIngresso +
                "\nStatus: " + status +
                "\nCliente: " + cliente.getNome() +
-               "\nFilme: " +sessao.getFilme().getTitulo();
+               "\nFilme: " +sessao.getFilme().getTitulo() +
+               "\nAssento: " + assento.getCodigoAssento() +
+               "\nData da Sessão: " + sessao.getData() +
+               "\nHorário: " + sessao.getHorario();
+
 
     }
 

@@ -1,9 +1,11 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sessao {
 
-    private List<Assentos> assentos;
+    private List<Assento> assentos = new ArrayList<>();
 
     private int idSessao;
     public LocalDate data;
@@ -20,6 +22,8 @@ public class Sessao {
         this.idioma = idioma;
         this.filme = filme;
         this.sala = sala;
+
+        gerarAssentos();
     }
 
     //GETTERS E SETTERS
@@ -41,26 +45,75 @@ public class Sessao {
     public Sala getSala(){return sala;}
     public void setSala(Sala sala){this.sala = sala;}
 
-    private void gerarAssentos(){
+    private void gerarAssentos() {
 
         int filas = sala.getTipoSala().getFilas();
-        int coluna = sala.getTipoSala().getColunas();
+        int colunas = sala.getTipoSala().getColunas();
 
-        for (int linha = 0; linha <filas; linha++){
+        for (int linha = 0; linha < filas; linha++) {
 
             char letra = (char) ('A' + linha);
 
-            for (int colunas = 1; coluna <= colunas; coluna++){
+            for (int coluna = 1; coluna <= colunas; coluna++) {
 
                 assentos.add(
                         new Assento(letra + String.valueOf(coluna))
                 );
             }
+        }
+    }
 
+    public void mostrarMapaAssentos() {
+
+        int filas = sala.getTipoSala().getFilas();
+        int colunas = sala.getTipoSala().getColunas();
+
+        System.out.println("\n        TELA");
+        System.out.println("================================");
+
+        System.out.print("      ");
+        for (int coluna = 1; coluna <= colunas; coluna++) {
+            System.out.printf("[%-2d]", coluna);
         }
 
+        System.out.println();
+        System.out.print("      ");
+        for (int i = 0; i < colunas; i++) {
+            System.out.print("------");
+        }
+        System.out.println();
+        int indice = 0;
 
+        for (int linha = 0; linha < filas; linha++) {
+
+            char letra = (char) ('A' + linha);
+            System.out.print(letra + " |   ");
+
+            for (int coluna = 1; coluna <= colunas; coluna++) {
+                Assento assento = assentos.get(indice++);
+
+                if(assento.isOcupado()) {
+                    System.out.printf("[%-2s]", "XX");
+                }else{
+                    System.out.printf("[%-2s]", assento.getCodigoAssento());
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("================================");
     }
+
+    public Assento buscarAssento(String codigoAssento) {
+        for (Assento assento : assentos) {
+            if (assento.getCodigoAssento().equalsIgnoreCase(codigoAssento)) {
+                return assento;
+            }
+        }
+        return null;
+    }
+
+    public List<Assento> getAssentos() {return assentos; }
+
     @Override
     public String toString(){
         return  "\n----- SESSÃO -----" +
