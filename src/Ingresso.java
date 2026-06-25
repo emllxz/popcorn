@@ -20,6 +20,7 @@ public class Ingresso {
     private double valorIngresso;
 
     private Status status;
+    private tipoIngresso tipoIngresso;
 
     private Cliente cliente;
     private Sessao sessao;
@@ -29,7 +30,7 @@ public class Ingresso {
 
 
     public Ingresso(int idIngresso, String codigo,
-                    double valorIngresso, Status status, Cliente cliente,
+                    double valorIngresso, Status status, tipoIngresso tipoIngresso, Cliente cliente,
                     Sessao sessao, Assento assento){
 
         this.idIngresso = idIngresso;
@@ -37,6 +38,8 @@ public class Ingresso {
         this.valorIngresso = valorIngresso;
 
         this.status = status;
+        this.tipoIngresso = tipoIngresso;
+
 
         this.cliente = cliente;
         this.sessao = sessao;
@@ -71,20 +74,50 @@ public class Ingresso {
         this.status = status;
     }
 
+    public tipoIngresso getTipoIngresso() {return tipoIngresso; }
+
     @Override
     public String toString(){
-        return "\n----- INGRESSO -----" +
-               "\nId: " + idIngresso +
-               "\nCódigo= " + codigo +
-               "\nValor do Ingresso: " + valorIngresso +
-               "\nStatus: " + status +
-               "\nCliente: " + cliente.getNome() +
-               "\nFilme: " +sessao.getFilme().getTitulo() +
-               "\nAssento: " + assento.getCodigoAssento() +
-               "\nData da Sessão: " + sessao.getData() +
-               "\nHorário: " + sessao.getHorario();
-
-
+        return "╔══════════════════════════════════════╗\n" +
+                "║           🎬 CINEMA TICKET           ║\n" +
+                "╠══════════════════════════════════════╣\n" +
+                "║ Filme   : " + sessao.getFilme().getTitulo() + "\n" +
+                "║ Sala    : " + sessao.getSala().getNumeroSala() + "\n" +
+                "║ Assento : " + assento.getCodigoAssento() + "\n" +
+                "║--------------------------------------║\n" +
+                "║ Data    : " + sessao.getData() + "\n" +
+                "║ Hora    : " + sessao.getHorario() + "\n" +
+                "║ Idioma  : " + sessao.getIdioma() + "\n" +
+                "║--------------------------------------║\n" +
+                "║ Tipo    : " + tipoIngresso + "\n" +
+                "║ Valor   : R$ " + String.format("%.2f", valorIngresso) + "\n" +
+                "║ Status  : " + status + "\n" +
+                "╠══════════════════════════════════════╣\n" +
+                "║ Código: " + codigo + "\n" +
+                "╚══════════════════════════════════════╝";
     }
-
 }
+
+
+
+//private double calcularValorIngresso(
+//        Sessao sessao,
+//        tipoIngresso tipoIngresso) {
+//
+//    double valorIngresso = 40.0;
+//
+//    if (sessao.isEstreia()) {
+//        valorIngresso *= 1.10;
+//    }
+//
+//    switch (tipoIngresso) {
+//        case INTEIRA:
+//            break;
+//        case UNIVERSITARIO:
+//        case IDOSO:
+//        case CRIANCA:
+//            valorIngresso *= 0.5;
+//            break;
+//    }
+//    return valorIngresso;
+//}

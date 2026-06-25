@@ -508,6 +508,29 @@ public class Main {
             System.out.println("Idiomas disponíveis: ");
             String idioma = sc.nextLine();
 
+            System.out.println("O filme está em estreia?");
+            System.out.println("1. Sim");
+            System.out.println("2. Não");
+
+            System.out.println("\nEscolha uma opção: ");
+
+            int opcaoEstreia = lerInput();
+
+            boolean estreia = false;
+
+            switch (opcaoEstreia) {
+                case 1:
+                    estreia = true;
+                    break;
+                case 2:
+                    estreia = false;
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    return;
+            }
+
+
             if (filmes.isEmpty()) {
                 System.out.println("Nenhum filme cadastrado.");
                 System.out.println("Favor, cadastre ao menos um filme.");
@@ -578,6 +601,7 @@ public class Main {
                     data,
                     horario,
                     idioma,
+                    estreia,
                     filmeSelecionado,
                     salaSelecionada
             );

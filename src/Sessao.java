@@ -11,15 +11,17 @@ public class Sessao {
     public LocalDate data;
     public LocalTime horario;
     public String idioma;
+    private boolean estreia;
 
     private Filme filme;
     private Sala sala;
 
-    public Sessao(int idSessao,LocalDate data, LocalTime horario, String idioma, Filme filme, Sala sala){
+    public Sessao(int idSessao,LocalDate data, LocalTime horario, String idioma, boolean estreia, Filme filme, Sala sala){
         this.idSessao = idSessao;
         this.data = data;
         this.horario = horario;
         this.idioma = idioma;
+        this.estreia = estreia;
         this.filme = filme;
         this.sala = sala;
 
@@ -38,6 +40,8 @@ public class Sessao {
 
     public String getIdioma(){return idioma;}
     public void setIdioma(String idioma){this.idioma = idioma;}
+
+    public boolean isEstreia() {return estreia;}
 
     public Filme getFilme(){return filme;}
     public void setFilme(Filme filme){this.filme = filme;}
@@ -118,6 +122,7 @@ public class Sessao {
     public String toString(){
         return  "\n----- SESSÃO -----" +
                 "\nId Sessão: " + idSessao +
+                "\nEstreia: " + (estreia? "Sim" : "Não") +
                 "\nFilme: " + filme.getTitulo() +
                 "\nSala: " + sala.getNumeroSala() +
                 "\nData: " + data +
