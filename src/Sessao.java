@@ -116,6 +116,18 @@ public class Sessao {
         return null;
     }
 
+    public int contarAssentosDisponiveis() {
+
+        int quantidadeAssenotosDisponiveis = 0;
+
+        for (Assento assento : assentos) {
+            if(!assento.isOcupado()) {
+                quantidadeAssenotosDisponiveis++;
+            }
+        }
+        return quantidadeAssenotosDisponiveis;
+    }
+
     public List<Assento> getAssentos() {return assentos; }
 
     @Override
@@ -127,7 +139,8 @@ public class Sessao {
                 "\nSala: " + sala.getNumeroSala() +
                 "\nData: " + data +
                 "\nHorário: " + horario +
-                "\nIdioma: " + idioma;
+                "\nIdioma: " + idioma +
+                "\nAssentos Disponíveis: " + contarAssentosDisponiveis();
     }
 }
 

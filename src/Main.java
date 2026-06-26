@@ -1,3 +1,4 @@
+import java.time.Period;
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
@@ -787,7 +788,7 @@ public class Main {
                     }
                 }
                 System.out.println("Filme inativado com sucesso!");
-                System.out.println("Sessões removidas: " + sessoesRemovidas);
+                System.out.println(sessoesRemovidas + " sessão(ões) vinculada(s) foram removidas automaticamente.");
 
                 return;
             }
@@ -1090,10 +1091,10 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    verSessoes();
+                    comprarIngresso();
                     break;
                 case 2:
-                    comprarIngresso();
+                    //tamo vendo o que fazer
                     break;
                 case 3:
                     meusIngressos();
@@ -1116,13 +1117,167 @@ public class Main {
 
     }
 
-    private static void verSessoes() {
-        System.out.println("Segue lista de sessões: ");
-        listarSessoes();
-    }
-
     private static void comprarIngresso() {
-        System.out.println("\nSistema em manutenção");
+
+        if (sessoes.isEmpty()) {
+            System.out.println("Nenhuma sessão disponível.");
+            return;
+        }
+
+        System.out.println("\n- - - - - - - - - - - - -");
+        System.out.println("  SESSÕES DISPONÍVEIS    ");
+        System.out.println("- - - - - - - - - - - - -");
+
+        listarSessoes();
+
+        System.out.println("\nDigite o ID da sessão desejada: ");
+        int idSessao = lerInput();
+
+        Sessao sessaoSelecionada = null;
+
+        for (Sessao sessao : sessoes) {
+            if (sessao.getIdSessao() == idSessao) {
+                sessaoSelecionada = sessao;
+                break;
+            }
+        }
+
+        if (sessaoSelecionada == null) {
+            System.out.println("Sessão não encontrada.");
+            return;
+        }
+
+        int assentosDisponiveis = sessaoSelecionada.contarAssentosDisponiveis();
+
+        System.out.println("Assentos disponíveis: " + assentosDisponiveis);
+
+        System.out.println(clienteLogado.getNome() + " deseja levar acompanhantes?");
+        System.out.println("1. Sim");
+        System.out.println("2. Não");
+
+        int acompanhante = lerInput();
+
+        int quantidadeIngresso = 1;
+
+        if (acompanhante == 1) {
+            System.out.println("Quantos acompanhantes deseja levar? ");
+
+            int quantidadeAcompanhante = lerInput();
+
+            quantidadeIngresso += quantidadeAcompanhante;
+        } else if (acompanhante != 2) {
+            System.out.println("Opção inválida!");
+            return;
+        }
+
+        if(quantidadeIngresso > assentosDisponiveis) {
+            System.out.println("\nQuantidade de ingressos indisponível.");
+            System.out.println("Há apenas " + assentosDisponiveis + " assento(s) disponível(is) nesta sessão.");
+            System.out.println("\nGostaria de: ");
+            System.out.println("1. Comprar a quantidade de assentos disponíveis. ");
+            System.out.println("2. Selecionar uma nova sessão.");
+
+            System.out.print("\nEscolha uma opção: ");
+            int opcaoQuantidadeMenor = lerInput();
+
+            switch (opcaoQuantidadeMenor) {
+                case 1:
+                    quantidadeIngresso = assentosDisponiveis;
+                    break;
+
+                case 2:
+                    comprarIngresso();
+                    return;
+
+                default:
+                    System.out.println("Opção inválida!");
+                    return;
+            }
+        }
+
+        for (int i = 1; i <=quantidadeIngresso; i++) {
+
+            if(i == 1) {
+                System.out.println("\n=== INGRESSO DO CLIENTE ===");
+                System.out.println("Cliente: " + clienteLogado.getNome());
+            } else {
+                System.out.println("\n=== ACOMPANHANTE " + (i - 1) + " ===");
+                System.out.print("Nome do acompanhante: ");
+                String nomeAcompanhante = sc.nextLine();
+
+                System.out.println("Cliente: " + nomeAcompanhante);
+            }
+
+            System.out.println("\nSelecione o tipo do ingresso:");
+            System.out.println("1. Inteira");
+            System.out.println("2. Universitário");
+            System.out.println("3. Idoso");
+            System.out.println("4. Criança");
+            System.out.print("Escolha uma opção: ");
+
+            int opcaoTipoIngresso = lerInput();
+
+            Ingresso.TipoIngresso tipoIngresso;
+
+            switch (opcaoTipoIngresso) {
+                case 1:
+                    tipoIngresso = Ingresso.TipoIngresso.INTEIRA;
+                    System.out.println("Ingresso Inteira selecionado.");
+                    break;
+
+                case 2:
+                    tipoIngresso = Ingresso.TipoIngresso.UNIVERSITARIO;
+                    System.out.println("Ingresso Universitário selecionado.");
+                    System.out.println("Digite o código da carteirinha: ");
+                    String codigoCarteirinha = sc.nextLine();
+                    break;
+
+                case 3:
+                    System.out.println("Ingresso Idoso selecionado.");
+
+                    System.out.println("Digite a data de nascimento (AAAA-MM-DD): ");
+                    LocalDate nascimentoIdoso = lerData();
+
+                    int idadeIdoso = Period.between(nascimentoIdoso, LocalDate.now()).getYears();
+
+                    if (idadeIdoso >= 60) {
+                        tipoIngresso = Ingresso.TipoIngresso.IDOSO;
+                    } else {
+                        System.out.println("O cliente não possui idade para ingresso de idoso.");
+                        System.out.println("O ingresso será alterado para INTEIRA.");
+
+                        tipoIngresso = Ingresso.TipoIngresso.INTEIRA;
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Ingresso Criança selecionado.");
+
+                    System.out.println("Digite a data de nascimento (AAAA-MM-DD): ");
+                    LocalDate nascimentoCrianca = lerData();
+
+                    int idadeCrianca = Period.between(nascimentoCrianca, LocalDate.now()).getYears();
+
+                    if (idadeCrianca <= 10) {
+                        tipoIngresso = Ingresso.TipoIngresso.CRIANCA;
+
+                        System.out.println("Informe o nome do responsável durante a sessão: ");
+                        String responsavel = sc.nextLine();
+                    } else {
+                        System.out.println("O cliente não possui idade para ingresso de criança");
+                        System.out.println("O ingresso será alterado para INTEIRA.");
+
+                        tipoIngresso = Ingresso.TipoIngresso.INTEIRA;
+                    }
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
+                    i--;
+                    continue;
+            }
+
+        }
     }
 
     private static void meusIngressos() {
