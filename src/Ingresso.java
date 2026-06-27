@@ -15,10 +15,11 @@ public class Ingresso {
 
     private int idIngresso;
     private String codigo;
-    private double valorIngresso;
 
     private Status status;
     private TipoIngresso tipoIngresso;
+    private String responsavelLegal;
+    private double valorIngresso;
 
     private Cliente cliente;
     private Sessao sessao;
@@ -26,20 +27,22 @@ public class Ingresso {
 
 
     public Ingresso(int idIngresso, String codigo,
-                    double valorIngresso, Status status, TipoIngresso tipoIngresso, Cliente cliente,
-                    Sessao sessao, Assento assento) {
+                    Status status,
+                    TipoIngresso tipoIngresso, String responsavelLegal,
+                    Cliente cliente, Sessao sessao, Assento assento) {
 
         this.idIngresso = idIngresso;
         this.codigo = codigo;
-        this.valorIngresso = valorIngresso;
 
         this.status = status;
         this.tipoIngresso = tipoIngresso;
-
+        this.responsavelLegal = responsavelLegal;
 
         this.cliente = cliente;
         this.sessao = sessao;
         this.assento = assento;
+
+        this.valorIngresso = calcularValorIngresso();
     }
 
     //GETTERS E SETTERS
@@ -47,8 +50,6 @@ public class Ingresso {
     public int getIdIngresso() {return idIngresso;}
 
     public String getCodigo() {return codigo;}
-
-    public double getValorIngresso() {return valorIngresso;}
 
     public Cliente getCliente() {return cliente;}
 
@@ -63,7 +64,29 @@ public class Ingresso {
 
 
     public TipoIngresso getTipoIngresso() {return tipoIngresso;}
+    public String getResponsavelLegal() {return responsavelLegal;}
 
+    private double calcularValorIngresso() {
+
+        double valorBase = 40.0;
+
+        if (sessao.isEstreia()) {
+            valorBase *= 1.10;
+        }
+
+        switch (tipoIngresso) {
+
+            case INTEIRA:
+                break;
+
+            case UNIVERSITARIO:
+            case IDOSO:
+            case CRIANCA:
+                valorBase *= 0.5;
+                break;
+        }
+        return valorBase;
+    }
     @Override
     public String toString() {
         return
@@ -76,6 +99,9 @@ public class Ingresso {
                 "\n║ Sala    : " + sessao.getSala().getNumeroSala() +
                 "\n║ Assento : " + assento.getCodigoAssento() +
                 "\n║ Tipo    : " + tipoIngresso +
+                (tipoIngresso == TipoIngresso.CRIANCA
+                       ? "\n║ Resp.   : " + responsavelLegal
+                       : "") +
                 "\n║ Idioma  : " + sessao.getIdioma() +
                 "\n║--------------------------------------------║" +
                 "\n║ Data    : " + sessao.getData() +
@@ -89,25 +115,3 @@ public class Ingresso {
                 "\n╚═════════════════════════════════════════════╝";
     }
 }
-
-//private double calcularValorIngresso(
-//        Sessao sessao,
-//        tipoIngresso tipoIngresso) {
-//
-//    double valorIngresso = 40.0;
-//
-//    if (sessao.isEstreia()) {
-//        valorIngresso *= 1.10;
-//    }
-//
-//    switch (tipoIngresso) {
-//        case INTEIRA:
-//            break;
-//        case UNIVERSITARIO:
-//        case IDOSO:
-//        case CRIANCA:
-//            valorIngresso *= 0.5;
-//            break;
-//    }
-//    return valorIngresso;
-//}

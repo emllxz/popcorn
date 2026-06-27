@@ -1219,10 +1219,11 @@ public class Main {
 
             Ingresso.TipoIngresso tipoIngresso;
 
+            String responsavel = "";
+
             switch (opcaoTipoIngresso) {
                 case 1:
                     tipoIngresso = Ingresso.TipoIngresso.INTEIRA;
-                    System.out.println("Ingresso Inteira selecionado.");
                     break;
 
                 case 2:
@@ -1235,7 +1236,7 @@ public class Main {
                 case 3:
                     System.out.println("Ingresso Idoso selecionado.");
 
-                    System.out.println("Digite a data de nascimento (AAAA-MM-DD): ");
+                    System.out.println("Digite a data de nascimento do idoso (AAAA-MM-DD): ");
                     LocalDate nascimentoIdoso = lerData();
 
                     int idadeIdoso = Period.between(nascimentoIdoso, LocalDate.now()).getYears();
@@ -1253,7 +1254,7 @@ public class Main {
                 case 4:
                     System.out.println("Ingresso Criança selecionado.");
 
-                    System.out.println("Digite a data de nascimento (AAAA-MM-DD): ");
+                    System.out.println("Digite a data de nascimento da criança (AAAA-MM-DD): ");
                     LocalDate nascimentoCrianca = lerData();
 
                     int idadeCrianca = Period.between(nascimentoCrianca, LocalDate.now()).getYears();
@@ -1262,7 +1263,7 @@ public class Main {
                         tipoIngresso = Ingresso.TipoIngresso.CRIANCA;
 
                         System.out.println("Informe o nome do responsável durante a sessão: ");
-                        String responsavel = sc.nextLine();
+                        responsavel = sc.nextLine();
                     } else {
                         System.out.println("O cliente não possui idade para ingresso de criança");
                         System.out.println("O ingresso será alterado para INTEIRA.");
@@ -1276,8 +1277,44 @@ public class Main {
                     i--;
                     continue;
             }
+            System.out.println("Selecione o assento do ingresso " + i);
 
+            sessaoSelecionada.mostrarMapaAssentos();
+
+            System.out.println("Código do assento: ");
+            String codigoAssento = sc.nextLine();
+
+            Assento assentoSelecionado = null;
+            boolean encontrado = false;
+
+            for (Assento assento : sessaoSelecionada.getAssentos()) {
+
+                if (assento.getCodigoAssento().equalsIgnoreCase(codigoAssento)) {
+
+                    encontrado = true;
+
+                    if (assento.isOcupado()) {
+                        System.out.println("Assento já ocupado!");
+                        assentoSelecionado = null;
+                    } else {
+                        assentoSelecionado = assento;
+                    }
+                    break;
+                }
+            }
+            if (!encontrado) {
+                System.out.println("Assento não encontrado");
+                i--;
+                continue;
+            }
+            if (assentoSelecionado == null) {
+                System.out.println("Escolha outro assento.");
+                i--;
+                continue;
+            }
+            assentoSelecionado.ocupar();
         }
+
     }
 
     private static void meusIngressos() {
